@@ -53,7 +53,7 @@ FilterUtil = (function() {
             return true;
         },
         
-        applyFilter : function(filterName, originalValue) {
+        applyFilters : function(filterName, originalValue) {
             var _buf = buf,
                 priorities,
                 filterList,
@@ -62,7 +62,7 @@ FilterUtil = (function() {
                 arg = [],
                 i, j, leni, lenj;
             
-            if (!_buf.filters[filterName]) return;
+            if (!_buf.filters[filterName]) return value;
             
             priorities = _buf.activedPriorities[filterName];
             

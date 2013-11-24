@@ -24,10 +24,13 @@ FilterUtil.addFilter(filterName, handler[, priority]);
 filterName : 
     {String} filter identifier.
 handler : 
-    {Function(lastReturnedValue[, argument1[, argument2[, ...]]])} handler that receives params below:
-        lastReturnedValue : Value returned by last filter attached to the identifier.
-            if this filter is first one that's executed, it should be original value.
-        argument1 : Argument list parsed by applyFilters, if exsit.
+    /**
+     * @param lastReturnedValue : Value returned by last filter attached to the identifier.
+     * if this filter is first one that's executed, it should be original value.
+     * @param argument1 : Argument list parsed by applyFilters, if exsit.
+     */
+    {Function(lastReturnedValue[, argument1[, argument2[, ...]]])}
+        handler that receives params above.
 [priority] : 
     {int} optional. Default is 10, any other values as you wish.
     Determines the order of handlers that would be executed,
@@ -45,7 +48,8 @@ FilterUtil.removeFilter(filterName, handler[, priority]);
 filterName : 
     {String} filter identifier.
 handler : 
-    {Function(lastReturnedValue[, argument1[, argument2[, ...]]])} the handler given in addFilter
+    {Function(lastReturnedValue[, argument1[, argument2[, ...]]])} 
+        the handler given in addFilter
 [priority] : 
     {int} optional. Default is 10, any other values as you wish, 
     just make sure it's the same as it's added.

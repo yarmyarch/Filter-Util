@@ -1,0 +1,32 @@
+<!DOCTYPE html >
+<html>
+<title>Touch the sky</title>
+<script type="text/javascript" src="FilterUtil.js"></script>
+<body>
+Run the demo in console:<br>
+<pre>
+FilterUtil.addFilter("value", function(value, offset) {
+    alert(0);
+    return value + offset;
+}, 2);
+FilterUtil.addFilter("value", function(value, offset) {
+    alert(1);
+    return value + offset * 2;
+}, -1);
+FilterUtil.addFilter("value", function(value, offset) {
+    alert(2);
+    return value + offset / 2;
+}, 2);
+FilterUtil.addFilter("value", function(value, offset) {
+    alert(3);
+    return value + offset;
+}, 1);
+
+var value = 2, offset = 1;
+FilterUtil.applyFilter("value", value, offset);
+</pre>
+
+Correct sequence should be 0->2->3->1.<br>
+Enjoy.
+</body>
+</html>

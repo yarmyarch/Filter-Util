@@ -1,18 +1,32 @@
-var FilterUtil;
+/**
+ * Usage:
+    var handler1 = function(oriValue, param1, param2, param3){
+            return oriValue * param1 + param2;
+        };
+    var handler2 = function(oriValue, param1, param2, param3){
+            return oriValue * param2 + param3;
+        };
+    FilterUtil.addFilter("filterName", handler1, 11);
+    FilterUtil.addFilter("filterName", handler2);
+    
+    // 0 - originalValue;
+    // 1 - param1;
+    // 2 - param2;
+    // 3 - param3;
+    FilterUtil.applyFilters("filterName", 0, 1,2,3);
+    // returned result from handler2 as a new originalValue: 0 * 2 + 3;
+    // get result from handler1: 3 * 1 + 2
+    // final result returned: 5.
+    
+    FilterUtil.removeFilter("filterName", handler1, 12);
+ */
 
 FilterUtil = (function() {
     
     var self;
     
     var buf = {
-        filters : {},
-        activedPriorities : {}
-    };
-    
-    var controller = {
-        sort : function(a, b) {
-            return a - b <= 0;
-        }
+        filters : {}
     };
     
     return self = {
@@ -26,12 +40,9 @@ FilterUtil = (function() {
                 priority = (undefined === priority) && 10 || priority;
             
             !_buf.filters[filterName] && (_buf.filters[filterName] = {});
-            !_buf.activedPriorities[filterName] && (_buf.activedPriorities[filterName] = []);
             
             if (!_buf.filters[filterName][priority]) {
                 _buf.filters[filterName][priority] = [];
-                _buf.activedPriorities[filterName].push(priority);
-                _buf.activedPriorities[filterName].sort(controller.sort);
             }
             
             (handler instanceof Function) && _buf.filters[filterName][priority].push(handler);
@@ -55,23 +66,21 @@ FilterUtil = (function() {
         
         applyFilters : function(filterName, originalValue) {
             var _buf = buf,
-                priorities,
+                priorities = _buf.filters[filterName],
                 filterList,
                 filter,
                 value = originalValue,
                 arg = [],
                 i, j, leni, lenj;
             
-            if (!_buf.filters[filterName]) return value;
+            if (!priorities) return value;
             
-            priorities = _buf.activedPriorities[filterName];
-            
-            for (i = 0, leni = priorities.length; i < leni; ++i) {
-                filterList = _buf.filters[filterName][priorities[i]];
+            for (i in priorities) {
+                filterList = priorities[i];
                 for (j = 0, lenj = filterList.length; j < lenj; ++j) {
                     // rebuild arguments for next filter. 
                     // first param is currend calculated value, additional arguments can be parsed via the input.
-                    arg = [value].concat([].slice.call(arguments, 2));
+                    arg = value == undefined ? (arg.length && arg || [].slice.call(arguments, 1)) : [value].concat([].slice.call(arguments, 2));
                     (filterList[j] instanceof Function) && (value = filterList[j].apply({}, arg));
                 }
             }
@@ -83,7 +92,6 @@ FilterUtil = (function() {
             var _buf = buf;
             
             _buf.filters[filterName] = {};
-            _buf.activedPriorities[filterName] = [];
         }
     }
     

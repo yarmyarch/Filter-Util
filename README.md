@@ -38,7 +38,7 @@ handler :
      * @param argument1 : Argument list parsed by applyFilters, if exsit.
      */
     {Function(lastReturnedValue[, argument1[, argument2[, ...]]])}
-        handler that receives params above.
+        handler that receives params above. "this" in handlers will point to the object(that's applying filters) itself.
 [priority] : 
     {int} optional. Default is 10, any other values as you wish.
     Determines the order of handlers that would be executed,

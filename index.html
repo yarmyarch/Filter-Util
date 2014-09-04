@@ -5,10 +5,11 @@
 <body>
 Run the demo in console:<br>
 <pre>
+FilterUtil.privateValue = 10;
 FilterUtil.addFilter("value", function(value, offset) {
-    alert(0);
+    alert(this.privateValue);
     return value + offset;
-}, 0);
+}, -1);
 FilterUtil.addFilter("value", function(value, offset) {
     alert(1);
     return value + offset * 2;
@@ -26,7 +27,7 @@ var value = 2, offset = 1;
 FilterUtil.applyFilters("value", value, offset);
 </pre>
 
-Correct sequence should be 0->2->3->1.<br>
+Correct sequence should be 10->2->3->1.<br>
 Enjoy.
 </body>
 </html>

@@ -13,6 +13,14 @@ Check index.html for a demo.
 
 ### Public functions
 
+#### FilterUtil.activate
+Allow an object to act as an adapter that can add and apply filters. Those filters applied by the object would only be received by filters added to itself only.
+
+```js
+// usage
+FilterUtil.activate(obj)
+```
+
 #### FilterUtil.addFilter
 Add a filter for a specific identifier. 
 
